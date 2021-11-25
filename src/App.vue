@@ -13,8 +13,11 @@ export default {
   },
   methods: {
      getList() {
-       let data = "请求参数"
-        api.getListAPI(data).then(res => {
+       let data = {
+	user_name:"小艾5",
+	password:"123456"
+}
+        api.postFormAPI(data).then(res => {
           //数据处理
           console.log(res)
         }).catch(err => console.log(err))
