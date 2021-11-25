@@ -1,13 +1,14 @@
 <template>
+<el-button>I am ElButton</el-button>
   <router-view></router-view>
 </template>
 
 <script>
 import * as api from '../src/request/api'
+import { ElButton } from 'element-plus'
 export default {
   name: 'App',
-  components: {
-  },
+components: { ElButton },
   mounted(){
     this.getList();
   },
