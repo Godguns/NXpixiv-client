@@ -1,5 +1,6 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
   publicPath:'./',
   lintOnSave: false,
@@ -15,7 +16,11 @@ module.exports = {
           test: /\.js$|\.html$|\.css$/,
           // 超过4kb压缩
           threshold: 4096
-        })
+        }),
+        config.plugins = [
+          ...config.plugins,
+          new BundleAnalyzerPlugin()
+      ]
       )
       config.optimization = {
         splitChunks: {
@@ -57,9 +62,11 @@ module.exports = {
           }
         }
       };
+      
     }
         
   },
+  
   devServer: {
     // overlay: { // 让浏览器 overlay 同时显示警告和错误
     //   warnings: true,

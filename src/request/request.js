@@ -1,13 +1,12 @@
 /****   request.js   ****/
 // 导入axios
 import axios from 'axios'
-//import http from './http';
-// 使用element-ui Message做消息提醒
+import cookie from 'js-cookie';
 
 //1. 创建新的axios实例，
 const service = axios.create({
   // 公共接口--这里注意后面会讲
-   baseURL: 'http://localhost:8080',
+   baseURL: process.env.VUE_APP_BASE_API,
   // 超时时间 单位是ms，这里设置了3s的超时时间
   timeout: 5 * 1000
 })
@@ -24,6 +23,7 @@ service.interceptors.request.use(config => {
    if(token){
       config.params = {'token':token} //如果要求携带在参数中
       config.headers.token= token; //如果要求携带在请求头中
+      config.headers.authorization = token
     }
   return config
 }, error => {
@@ -53,6 +53,9 @@ service.interceptors.response.use(
         if (error.response) {
             if (res.status == 401) {
                 console.log("响应401")
+                // 登录过期
+      cookie.remove('jwt');
+      localStorage.removeItem('user');
                // Vue.prototype.parentFns.portal_logout()
             }
         }
